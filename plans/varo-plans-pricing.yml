@@ -1,0 +1,83 @@
+name: Varo Bank Plans and Pricing
+description: Pricing and fee structure for Varo Bank consumer banking products, including bank accounts, savings, cash advances, and credit products.
+url: https://www.varomoney.com/
+plans:
+
+  - name: Varo Bank Account
+    description: No-fee digital checking account with early direct deposit and fee-free ATM access.
+    url: https://www.varomoney.com/bank-account/
+    price: 0.00
+    currency: USD
+    billing: monthly
+    features:
+      - No monthly maintenance fees
+      - No minimum balance requirement
+      - No overdraft fees
+      - Early direct deposit up to 2 days early
+      - Free debit card
+      - 55,000+ fee-free Allpoint ATMs
+      - Fee-free cash deposits at 7,500+ CVS locations
+      - Cashback rewards on gas, groceries, and dining
+    limits:
+      - name: Out-of-network ATM fee
+        value: "$3.50 per transaction"
+
+  - name: Varo Savings Account
+    description: High-yield savings account with up to 5.00% APY on balances up to $5,000.
+    url: https://www.varomoney.com/savings-account/
+    price: 0.00
+    currency: USD
+    billing: monthly
+    features:
+      - No monthly fees
+      - No minimum balance requirement
+      - Up to 5.00% APY on first $5,000
+      - Base APY of 2.50% on balances over $5,000
+      - Auto-savings tools
+    limits:
+      - name: High-yield APY cap
+        value: "$5,000 balance limit for 5.00% APY"
+
+  - name: Varo Advance (Cash Advance)
+    description: Short-term cash advances with a flat fee, no interest charges.
+    url: https://www.varomoney.com/cash-advance/
+    price: variable
+    currency: USD
+    billing: per-use
+    features:
+      - No interest charges
+      - Instant access to funds
+      - Initial limits from $20 to $250
+      - Expandable limit up to $500
+    limits:
+      - name: Advance fee range
+        value: "$1.60 to $40 depending on advance amount"
+      - name: Initial advance limit
+        value: "$20–$250 (expandable to $500)"
+
+  - name: Varo Personal Line of Credit
+    description: Flexible personal line of credit up to $2,000 with a single flat fee and no interest.
+    url: https://www.varomoney.com/line-of-credit/
+    price: variable
+    currency: USD
+    billing: per-use
+    features:
+      - No interest charges
+      - Single flat fee
+      - Repayment terms up to 12 months
+      - No late fees
+      - No prepayment penalties
+      - Credit limit up to $2,000
+
+  - name: Varo Believe Credit-Builder Card
+    description: Secured Visa credit card designed to help customers build or improve their credit score.
+    url: https://www.varomoney.com/credit-builder/
+    price: 0.00
+    currency: USD
+    billing: monthly
+    features:
+      - No annual fee
+      - No interest charges (secured card)
+      - Credit score tracking
+      - Average 40+ point credit score increase after 3 months of on-time payments
+      - Reports to major credit bureaus

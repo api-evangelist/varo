@@ -1,0 +1,67 @@
+name: Varo Bank FinOps
+description: Financial operations reference for Varo Bank consumer banking services, covering cost structure, fee optimization, and financial planning considerations for consumers and developers integrating via Open Banking aggregators.
+url: https://www.varomoney.com/
+
+cost_structure:
+
+  - category: Banking Account
+    description: Core checking account with zero-fee structure.
+    monthly_cost: 0.00
+    currency: USD
+    notes: No monthly maintenance fees, no minimum balance, no overdraft fees, no foreign transaction fees.
+
+  - category: Savings Account
+    description: High-yield savings account with no fees.
+    monthly_cost: 0.00
+    currency: USD
+    notes: Earns up to 5.00% APY on balances up to $5,000; 2.50% APY above that threshold.
+
+  - category: ATM Usage (Out-of-Network)
+    description: Fee for ATM cash withdrawals outside the Allpoint network.
+    per_transaction_cost: 3.50
+    currency: USD
+    notes: 55,000+ Allpoint ATMs are free. Out-of-network fee is $3.50 per transaction.
+
+  - category: Cash Advance (Varo Advance)
+    description: Flat fee cash advance product with no interest charges.
+    currency: USD
+    fee_range:
+      minimum: 1.60
+      maximum: 40.00
+    notes: Fee scales with advance amount ($20–$250 initial, up to $500 with history). No interest. Repayment expected on next direct deposit.
+
+  - category: Personal Line of Credit
+    description: Fixed-fee personal credit line with no interest.
+    currency: USD
+    notes: Single flat fee per draw. No interest, no late fees, no prepayment penalties. Up to $2,000 limit with repayment terms up to 12 months.
+
+  - category: Believe Credit-Builder Card
+    description: Secured Visa credit card with no annual fee.
+    annual_cost: 0.00
+    currency: USD
+    notes: Secured card; customer deposits collateral. No interest charged. Reports to major credit bureaus.
+
+optimization_tips:
+
+  - tip: Use Allpoint ATMs
+    description: Always use Allpoint network ATMs (55,000+ locations) to avoid the $3.50 out-of-network ATM fee.
+
+  - tip: Maximize High-Yield APY
+    description: Keep savings balances at or below $5,000 in the Varo Savings Account to maintain the 5.00% APY tier; balances above $5,000 drop to 2.50% APY.
+
+  - tip: Leverage Early Direct Deposit
+    description: Enable direct deposit to access funds up to 2 days early, reducing reliance on cash advances and associated fees.
+
+  - tip: Build Advance History
+    description: Use Varo Advance responsibly and repay on time to expand the advance limit from the initial $250 cap up to $500.
+
+  - tip: Open Banking Integration
+    description: Developers and fintech builders should integrate via Plaid or similar Open Banking aggregators for standardized, compliant access to Varo customer account data (with customer consent), rather than seeking a direct Varo API.
+
+integration_costs:
+
+  - integration: Plaid (Open Banking Aggregator)
+    description: Primary recommended integration path for accessing Varo Bank customer data.
+    cost_model: Billed by Plaid per API call or per connected account; Varo itself does not charge developers directly.
+    url: https://plaid.com/customer-stories/varo/
+    notes: Varo does not offer a public developer API. Integration is through aggregators. Plaid integration with Varo supports account authentication, balance, transactions, income verification, and identity.

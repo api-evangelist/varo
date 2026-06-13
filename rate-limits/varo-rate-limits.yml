@@ -1,0 +1,41 @@
+name: Varo Bank Rate Limits
+description: Rate limits and operational thresholds for Varo Bank consumer banking services. Varo does not publish a public developer API; operational limits apply to consumer-facing banking features and third-party integrations via Open Banking aggregators such as Plaid.
+url: https://support.varomoney.com/hc/en-us
+
+limits:
+
+  - name: ATM Withdrawal Limit
+    description: Daily ATM cash withdrawal limit for the Varo Bank debit card.
+    type: daily
+    value: Varies by account; standard daily ATM limit applies
+    notes: Fee-free at 55,000+ Allpoint network ATMs; $3.50 fee per out-of-network transaction.
+
+  - name: Varo Advance Initial Limit
+    description: Maximum initial cash advance amount available to new Varo Advance users.
+    type: per-transaction
+    value: "$20–$250"
+    notes: Limit can expand up to $500 based on account history and usage patterns.
+
+  - name: Varo Personal Line of Credit
+    description: Maximum borrowing limit for the Varo personal line of credit product.
+    type: per-account
+    value: "$2,000"
+    notes: Credit limit determined during underwriting. Repayment terms up to 12 months.
+
+  - name: Open Banking Aggregator Access (Plaid)
+    description: Varo Bank accounts are accessible via Plaid and other Open Banking aggregators; rate limits are governed by the aggregator's policies.
+    type: per-integration
+    value: Governed by aggregator (e.g., Plaid)
+    notes: Varo does not publish its own developer API. Third-party access is facilitated through aggregators. Data accessible includes account balances, transaction history, and account holder information.
+
+  - name: Direct Deposit Early Access
+    description: Early direct deposit eligibility threshold.
+    type: per-deposit
+    value: Up to 2 days early
+    notes: Subject to employer payroll submission timing.
+
+  - name: Savings APY High-Yield Threshold
+    description: Balance threshold for the maximum 5.00% APY on the Varo Savings Account.
+    type: per-account
+    value: "$5,000"
+    notes: Balances above $5,000 earn the base APY of 2.50%.
