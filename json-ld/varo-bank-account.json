@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebAPI",
+  "@id": "https://www.varomoney.com/bank-account/",
+  "name": "Varo Bank Account API",
+  "description": "Consumer-facing banking API providing fee-free checking account services, early direct deposit, debit card management, ATM access, and cashback rewards. Accessible to third-party applications via Open Banking aggregators such as Plaid.",
+  "url": "https://support.varomoney.com/hc/en-us",
+  "provider": {
+    "@type": "Organization",
+    "name": "Varo Bank",
+    "url": "https://www.varomoney.com/"
+  },
+  "documentation": "https://support.varomoney.com/hc/en-us",
+  "keywords": [
+    "Checking Account",
+    "Direct Deposit",
+    "Debit Card",
+    "ATM",
+    "Open Banking"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebAPI",
+  "@id": "https://www.varomoney.com/credit-builder/",
+  "name": "Varo Believe Credit-Builder API",
+  "description": "Secured Visa credit card API supporting credit-building features including on-time payment tracking, credit bureau reporting, and credit score monitoring. Average 40+ point credit score improvement for customers after 3 months.",
+  "url": "https://support.varomoney.com/hc/en-us",
+  "provider": {
+    "@type": "Organization",
+    "name": "Varo Bank",
+    "url": "https://www.varomoney.com/"
+  },
+  "documentation": "https://support.varomoney.com/hc/en-us",
+  "keywords": [
+    "Credit Builder",
+    "Secured Card",
+    "Credit Score",
+    "Fintech"
+  ]
+}

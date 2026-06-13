@@ -1,0 +1,18 @@
+{
+  "blogFeeds": [
+    {
+      "name": "Varo Bank Blog",
+      "url": "https://www.varomoney.com/blog/",
+      "type": "Blog",
+      "lastChecked": "2026-06-13",
+      "posts": []
+    },
+    {
+      "name": "Varo Engineering Blog",
+      "url": "https://medium.com/engineering-varo",
+      "type": "EngineeringBlog",
+      "lastChecked": "2026-06-13",
+      "posts": []
+    }
+  ]
+}
