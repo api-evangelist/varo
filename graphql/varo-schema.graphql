@@ -1,0 +1,1080 @@
+# Varo Money — Conceptual GraphQL Schema
+# Provider: Varo Bank (varomoney.com)
+# Description: Neobank offering checking, high-yield savings, cash advances,
+#              credit-builder card, and personal line of credit.
+# Note: Varo does not publish a public GraphQL API. This schema is a
+#       conceptual representation of Varo's banking data model.
+
+# ---------------------------------------------------------------------------
+# Scalars
+# ---------------------------------------------------------------------------
+
+"""ISO 8601 date-time string."""
+scalar DateTime
+
+"""Decimal number represented as a string to preserve precision."""
+scalar Decimal
+
+"""ISO 4217 currency code (e.g., "USD")."""
+scalar CurrencyCode
+
+"""Monetary value in minor units (cents) paired with a currency code."""
+scalar Money
+
+"""Opaque cursor for Relay-style pagination."""
+scalar Cursor
+
+# ---------------------------------------------------------------------------
+# Enums
+# ---------------------------------------------------------------------------
+
+"""High-level account category."""
+enum AccountType {
+  CHECKING
+  SAVINGS
+  ADVANCE
+  CREDIT_CARD
+  LINE_OF_CREDIT
+}
+
+"""Lifecycle status of an account."""
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+  PENDING_VERIFICATION
+}
+
+"""Physical or virtual card type."""
+enum CardType {
+  DEBIT
+  CREDIT
+  VIRTUAL
+}
+
+"""Operational status of a card."""
+enum CardStatus {
+  ACTIVE
+  LOCKED
+  BLOCKED
+  EXPIRED
+  CANCELLED
+}
+
+"""Direction of a monetary transaction."""
+enum TransactionDirection {
+  CREDIT
+  DEBIT
+}
+
+"""High-level category of a transaction."""
+enum TransactionType {
+  PURCHASE
+  REFUND
+  TRANSFER_IN
+  TRANSFER_OUT
+  DIRECT_DEPOSIT
+  CASH_ADVANCE
+  BILL_PAYMENT
+  P2P_SEND
+  P2P_RECEIVE
+  ATM_WITHDRAWAL
+  FEE
+  INTEREST
+  CASHBACK
+  ADJUSTMENT
+}
+
+"""Settlement status of a transaction."""
+enum TransactionStatus {
+  PENDING
+  POSTED
+  REVERSED
+  DECLINED
+}
+
+"""Status of a cash advance."""
+enum AdvanceStatus {
+  ELIGIBLE
+  ACTIVE
+  REPAID
+  DEFAULTED
+  INELIGIBLE
+}
+
+"""Repayment method for a cash advance."""
+enum RepaymentMethod {
+  DIRECT_DEPOSIT
+  MANUAL
+  AUTO_DEBIT
+}
+
+"""Type of a payment or transfer."""
+enum PaymentType {
+  ACH
+  P2P
+  INTERNAL
+  BILL_PAYMENT
+  WIRE
+}
+
+"""Frequency of a scheduled payment."""
+enum PaymentFrequency {
+  ONCE
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  QUARTERLY
+}
+
+"""Status of a scheduled or in-flight payment."""
+enum PaymentStatus {
+  SCHEDULED
+  PROCESSING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+"""Type of notification event."""
+enum NotificationType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  CARD_ACTIVITY
+  BALANCE_ALERT
+  ADVANCE_AVAILABLE
+  REPAYMENT_DUE
+  SECURITY
+  PROMOTION
+}
+
+"""Delivery channel for a notification."""
+enum NotificationChannel {
+  PUSH
+  EMAIL
+  SMS
+  IN_APP
+}
+
+"""Webhook event category."""
+enum WebhookEvent {
+  TRANSACTION_CREATED
+  TRANSACTION_POSTED
+  BALANCE_UPDATED
+  DIRECT_DEPOSIT_RECEIVED
+  CARD_STATUS_CHANGED
+  ADVANCE_DISBURSED
+  ADVANCE_REPAID
+  SAVINGS_GOAL_REACHED
+  REWARD_EARNED
+}
+
+"""Token type per OAuth 2.0 spec."""
+enum TokenType {
+  BEARER
+  REFRESH
+}
+
+# ---------------------------------------------------------------------------
+# Interfaces
+# ---------------------------------------------------------------------------
+
+"""Common fields shared by all Varo account types."""
+interface Account {
+  id: ID!
+  type: AccountType!
+  status: AccountStatus!
+  balance: AccountBalance!
+  owner: Customer!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Common fields shared by all transaction types."""
+interface Transaction {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  direction: TransactionDirection!
+  type: TransactionType!
+  status: TransactionStatus!
+  description: String
+  postedAt: DateTime
+  createdAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Core Account Types
+# ---------------------------------------------------------------------------
+
+"""Varo fee-free checking account with debit card and ATM access."""
+type CheckingAccount implements Account {
+  id: ID!
+  type: AccountType!
+  status: AccountStatus!
+  balance: AccountBalance!
+  owner: Customer!
+  accountNumber: String!
+  routingNumber: String!
+  card: Card
+  transactions(limit: Int, cursor: Cursor): TransactionConnection!
+  directDeposits: [DirectDeposit!]!
+  cashBacks: [CashBack!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Varo high-yield savings account (up to 5.00% APY)."""
+type SavingsAccount implements Account {
+  id: ID!
+  type: AccountType!
+  status: AccountStatus!
+  balance: AccountBalance!
+  owner: Customer!
+  savingsBalance: Savings!
+  savingsRate: SavingsRate!
+  apy: APY!
+  goals: [SavingsGoal!]!
+  transactions(limit: Int, cursor: Cursor): TransactionConnection!
+  autoSaveEnabled: Boolean!
+  autoSaveAmount: Decimal
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Varo Advance short-term cash advance ($20–$500)."""
+type VaroAdvance implements Account {
+  id: ID!
+  type: AccountType!
+  status: AccountStatus!
+  balance: AccountBalance!
+  owner: Customer!
+  advance: Advance
+  eligibleAmount: Decimal!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Varo Believe secured credit card for credit building."""
+type CreditCard implements Account {
+  id: ID!
+  type: AccountType!
+  status: AccountStatus!
+  balance: AccountBalance!
+  owner: Customer!
+  card: Card!
+  creditLimit: Decimal!
+  securityDepositAmount: Decimal!
+  creditScore: Int
+  exceleratorStatus: ExceleratorStatus
+  transactions(limit: Int, cursor: Cursor): TransactionConnection!
+  rewards: [Reward!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Customer
+# ---------------------------------------------------------------------------
+
+"""Varo Bank customer (account holder)."""
+type Customer {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  dateOfBirth: String
+  address: Address
+  accounts: [Account!]!
+  cards: [Card!]!
+  notifications: [Notification!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Mailing or residential address."""
+type Address {
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+}
+
+# ---------------------------------------------------------------------------
+# Balance Types
+# ---------------------------------------------------------------------------
+
+"""Composite balance for a Varo account."""
+type AccountBalance {
+  available: Available!
+  pending: Pending!
+  actual: Actual!
+  currency: CurrencyCode!
+  asOf: DateTime!
+}
+
+"""Funds available for immediate use."""
+type Available {
+  amount: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Transactions authorized but not yet settled."""
+type Pending {
+  amount: Decimal!
+  currency: CurrencyCode!
+  count: Int!
+}
+
+"""Settled ledger balance."""
+type Actual {
+  amount: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Savings balance snapshot with goal aggregation."""
+type Savings {
+  total: Decimal!
+  currency: CurrencyCode!
+  goalAllocated: Decimal!
+  unallocated: Decimal!
+}
+
+"""Named savings target with progress tracking."""
+type SavingsGoal {
+  id: ID!
+  name: String!
+  targetAmount: Decimal!
+  currentAmount: Decimal!
+  currency: CurrencyCode!
+  targetDate: DateTime
+  percentComplete: Decimal!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Current savings interest rate tier."""
+type SavingsRate {
+  baseRate: Decimal!
+  boostedRate: Decimal
+  currency: CurrencyCode!
+  effectiveDate: DateTime!
+  conditions: [String!]!
+}
+
+"""Annual Percentage Yield with tier thresholds."""
+type APY {
+  rate: Decimal!
+  tierMax: Decimal
+  currency: CurrencyCode!
+  effectiveDate: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Transaction Types
+# ---------------------------------------------------------------------------
+
+"""Checking account debit or credit activity."""
+type CheckingTransaction implements Transaction {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  direction: TransactionDirection!
+  type: TransactionType!
+  status: TransactionStatus!
+  description: String
+  accountId: ID!
+  merchant: Merchant
+  runningBalance: Decimal
+  postedAt: DateTime
+  createdAt: DateTime!
+}
+
+"""Savings account deposit or withdrawal."""
+type SavingsTransaction implements Transaction {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  direction: TransactionDirection!
+  type: TransactionType!
+  status: TransactionStatus!
+  description: String
+  accountId: ID!
+  goalId: ID
+  runningBalance: Decimal
+  postedAt: DateTime
+  createdAt: DateTime!
+}
+
+"""Debit or credit card purchase transaction."""
+type CardTransaction implements Transaction {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  direction: TransactionDirection!
+  type: TransactionType!
+  status: TransactionStatus!
+  description: String
+  cardId: ID!
+  merchant: Merchant!
+  authCode: String
+  cashBackEarned: Decimal
+  postedAt: DateTime
+  createdAt: DateTime!
+}
+
+"""Relay-style connection wrapper for transactions."""
+type TransactionConnection {
+  edges: [TransactionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+"""Single edge in a transaction connection."""
+type TransactionEdge {
+  node: Transaction!
+  cursor: Cursor!
+}
+
+# ---------------------------------------------------------------------------
+# Merchant Types
+# ---------------------------------------------------------------------------
+
+"""Merchant associated with a card transaction."""
+type Merchant {
+  id: ID!
+  name: String!
+  category: MerchantCategory
+  location: MerchantLocation
+  logoUrl: String
+}
+
+"""MCC-based merchant category classification."""
+type MerchantCategory {
+  mcc: String!
+  name: String!
+  group: String
+}
+
+"""Geographic location of a merchant."""
+type MerchantLocation {
+  address: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+  latitude: Decimal
+  longitude: Decimal
+}
+
+# ---------------------------------------------------------------------------
+# Card Types
+# ---------------------------------------------------------------------------
+
+"""Physical or virtual payment card."""
+type Card {
+  id: ID!
+  type: CardType!
+  status: CardStatus!
+  last4: String!
+  network: String!
+  expiryMonth: Int!
+  expiryYear: Int!
+  lock: CardLock
+  virtualCard: VirtualCard
+  details: CardDetails
+  accountId: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Sensitive card details (tokenized delivery)."""
+type CardDetails {
+  pan: String!
+  cvv: String!
+  expiryMonth: Int!
+  expiryYear: Int!
+  billingAddress: Address
+}
+
+"""Virtual card number for online or recurring payments."""
+type VirtualCard {
+  id: ID!
+  pan: String!
+  cvv: String!
+  expiryMonth: Int!
+  expiryYear: Int!
+  merchantLocked: String
+  singleUse: Boolean!
+  active: Boolean!
+  createdAt: DateTime!
+}
+
+"""Card lock state and reason."""
+type CardLock {
+  locked: Boolean!
+  reason: String
+  lockedAt: DateTime
+  lockedBy: String
+}
+
+# ---------------------------------------------------------------------------
+# Payment and Transfer Types
+# ---------------------------------------------------------------------------
+
+"""Generic outbound payment record."""
+type Payment {
+  id: ID!
+  type: PaymentType!
+  status: PaymentStatus!
+  amount: Decimal!
+  currency: CurrencyCode!
+  fromAccountId: ID!
+  toAccountId: ID
+  payeeId: ID
+  memo: String
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+"""Internal or external fund transfer."""
+type Transfer {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  fromAccount: Account!
+  toAccount: Account!
+  status: PaymentStatus!
+  memo: String
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+"""ACH pull or push to/from an external bank account."""
+type ACH {
+  id: ID!
+  direction: TransactionDirection!
+  amount: Decimal!
+  currency: CurrencyCode!
+  externalAccountId: String!
+  routingNumber: String!
+  status: PaymentStatus!
+  traceNumber: String
+  settlementDate: DateTime
+  createdAt: DateTime!
+}
+
+"""Peer-to-peer instant transfer between Varo users."""
+type P2P {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  senderId: ID!
+  recipientId: ID!
+  recipientPhone: String
+  message: String
+  status: PaymentStatus!
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+"""Bill payment to a registered payee."""
+type BillPayment {
+  id: ID!
+  payee: BillPayee!
+  amount: Decimal!
+  currency: CurrencyCode!
+  accountNumber: String
+  memo: String
+  status: PaymentStatus!
+  scheduledDate: DateTime
+  processedDate: DateTime
+  createdAt: DateTime!
+}
+
+"""Registered biller/payee for bill pay."""
+type BillPayee {
+  id: ID!
+  name: String!
+  category: String
+  address: Address
+  phone: String
+  accountNumber: String
+  active: Boolean!
+}
+
+"""Future-dated or recurring scheduled payment."""
+type ScheduledPayment {
+  id: ID!
+  type: PaymentType!
+  amount: Decimal!
+  currency: CurrencyCode!
+  frequency: PaymentFrequency!
+  nextRunDate: DateTime!
+  endDate: DateTime
+  status: PaymentStatus!
+  payeeId: ID
+  toAccountId: ID
+  memo: String
+  createdAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Deposit Types
+# ---------------------------------------------------------------------------
+
+"""Direct deposit received by the customer."""
+type DirectDeposit {
+  id: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  accountId: ID!
+  source: String!
+  payroll: Payroll
+  benefits: Benefits
+  receivedAt: DateTime!
+  availableAt: DateTime!
+}
+
+"""Employer payroll deposit details."""
+type Payroll {
+  id: ID!
+  employer: String!
+  employerDeposit: EmployerDeposit!
+  payPeriodStart: DateTime
+  payPeriodEnd: DateTime
+  grossAmount: Decimal!
+  netAmount: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Single employer deposit event."""
+type EmployerDeposit {
+  id: ID!
+  companyName: String!
+  companyId: String
+  amount: Decimal!
+  currency: CurrencyCode!
+  depositedAt: DateTime!
+}
+
+"""Government or other benefit deposit."""
+type Benefits {
+  id: ID!
+  type: String!
+  agency: String!
+  amount: Decimal!
+  currency: CurrencyCode!
+  depositedAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Rewards and Cashback
+# ---------------------------------------------------------------------------
+
+"""Cashback reward earned on an eligible purchase."""
+type CashBack {
+  id: ID!
+  transactionId: ID!
+  merchantName: String!
+  amount: Decimal!
+  currency: CurrencyCode!
+  earnedAt: DateTime!
+  settledAt: DateTime
+}
+
+"""Generic reward record."""
+type Reward {
+  id: ID!
+  type: String!
+  amount: Decimal
+  points: Int
+  pointValue: PointValue
+  description: String
+  earnedAt: DateTime!
+  expiresAt: DateTime
+}
+
+"""Monetary value of a reward point."""
+type PointValue {
+  pointsPerDollar: Decimal!
+  dollarPerPoint: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Varo Believe Excelerator cashback accelerator program."""
+type VaroExcelerator {
+  id: ID!
+  currentTier: String!
+  baseRate: Decimal!
+  boostedRate: Decimal!
+  qualifyingBalance: Decimal!
+  qualifyingTransactions: Int!
+  currency: CurrencyCode!
+  effectiveDate: DateTime!
+}
+
+"""Customer's current Excelerator tier and qualifying status."""
+type ExceleratorStatus {
+  accountId: ID!
+  excelerator: VaroExcelerator!
+  qualified: Boolean!
+  currentBalance: Decimal!
+  currentTransactions: Int!
+  cashBackEarnedMtd: Decimal!
+  evaluatedAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Notifications and Alerts
+# ---------------------------------------------------------------------------
+
+"""Platform notification delivered to a customer."""
+type Notification {
+  id: ID!
+  customerId: ID!
+  type: NotificationType!
+  channel: NotificationChannel!
+  title: String!
+  body: String!
+  read: Boolean!
+  data: String
+  sentAt: DateTime!
+  readAt: DateTime
+}
+
+"""Account alert triggered by a rule or threshold."""
+type Alert {
+  id: ID!
+  customerId: ID!
+  type: NotificationType!
+  threshold: Decimal
+  triggered: Boolean!
+  triggeredAt: DateTime
+  message: String!
+  createdAt: DateTime!
+}
+
+"""Threshold-based spending notification."""
+type SpendingAlert {
+  id: ID!
+  accountId: ID!
+  spendingLimit: Decimal!
+  currentSpend: Decimal!
+  currency: CurrencyCode!
+  period: String!
+  exceeded: Boolean!
+  notifiedAt: DateTime
+}
+
+"""Notification for a deposit arrival or large deposit."""
+type DepositAlert {
+  id: ID!
+  accountId: ID!
+  depositAmount: Decimal!
+  currency: CurrencyCode!
+  source: String!
+  earlyAccess: Boolean!
+  receivedAt: DateTime!
+  notifiedAt: DateTime
+}
+
+# ---------------------------------------------------------------------------
+# Advance (Cash Advance) Types
+# ---------------------------------------------------------------------------
+
+"""Varo Advance cash advance record."""
+type Advance {
+  id: ID!
+  accountId: ID!
+  status: AdvanceStatus!
+  requestedAmount: Decimal!
+  approvedAmount: Decimal!
+  fee: AdvanceFee!
+  disbursedAt: DateTime
+  repaymentSchedule: RepaymentSchedule
+  repaidAt: DateTime
+  currency: CurrencyCode!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Flat fee associated with a cash advance amount tier."""
+type AdvanceFee {
+  tier: String!
+  minAmount: Decimal!
+  maxAmount: Decimal!
+  flatFee: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Repayment terms and expected repayment date for a cash advance."""
+type RepaymentSchedule {
+  advanceId: ID!
+  dueDate: DateTime!
+  method: RepaymentMethod!
+  autoRepayEnabled: Boolean!
+  repaidAt: DateTime
+  currency: CurrencyCode!
+  amount: Decimal!
+}
+
+# ---------------------------------------------------------------------------
+# Auth and Integration Types
+# ---------------------------------------------------------------------------
+
+"""Authentication session container."""
+type Auth {
+  customerId: ID!
+  accessToken: Token!
+  refreshToken: Token!
+  scopes: [String!]!
+  issuedAt: DateTime!
+}
+
+"""OAuth 2.0 token."""
+type Token {
+  value: String!
+  type: TokenType!
+  expiresAt: DateTime!
+  scopes: [String!]!
+}
+
+"""Registered webhook endpoint for event-driven notifications."""
+type Webhook {
+  id: ID!
+  url: String!
+  events: [WebhookEvent!]!
+  secret: String
+  active: Boolean!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Pagination
+# ---------------------------------------------------------------------------
+
+"""Relay-style page info for cursor-based pagination."""
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
+}
+
+# ---------------------------------------------------------------------------
+# Inputs
+# ---------------------------------------------------------------------------
+
+"""Input for creating or updating a savings goal."""
+input SavingsGoalInput {
+  name: String!
+  targetAmount: Decimal!
+  currency: CurrencyCode!
+  targetDate: DateTime
+}
+
+"""Input for initiating a transfer between accounts."""
+input TransferInput {
+  fromAccountId: ID!
+  toAccountId: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  memo: String
+}
+
+"""Input for initiating a P2P payment."""
+input P2PInput {
+  recipientId: ID
+  recipientPhone: String
+  amount: Decimal!
+  currency: CurrencyCode!
+  message: String
+}
+
+"""Input for initiating an ACH transfer."""
+input ACHInput {
+  direction: TransactionDirection!
+  externalAccountId: String!
+  routingNumber: String!
+  amount: Decimal!
+  currency: CurrencyCode!
+}
+
+"""Input for scheduling a bill payment."""
+input BillPaymentInput {
+  payeeId: ID!
+  amount: Decimal!
+  currency: CurrencyCode!
+  scheduledDate: DateTime
+  memo: String
+}
+
+"""Input for registering a webhook."""
+input WebhookInput {
+  url: String!
+  events: [WebhookEvent!]!
+  description: String
+}
+
+"""Input for requesting a cash advance."""
+input AdvanceRequestInput {
+  accountId: ID!
+  amount: Decimal!
+}
+
+"""Input for setting card lock state."""
+input CardLockInput {
+  cardId: ID!
+  locked: Boolean!
+  reason: String
+}
+
+"""Input for creating a virtual card."""
+input VirtualCardInput {
+  accountId: ID!
+  singleUse: Boolean!
+  merchantLocked: String
+}
+
+# ---------------------------------------------------------------------------
+# Root Query
+# ---------------------------------------------------------------------------
+
+type Query {
+  """Retrieve the authenticated customer's profile."""
+  me: Customer!
+
+  """Retrieve a single account by ID."""
+  account(id: ID!): Account
+
+  """List all accounts for the authenticated customer."""
+  accounts: [Account!]!
+
+  """Retrieve a single transaction by ID."""
+  transaction(id: ID!): Transaction
+
+  """List transactions for an account with cursor-based pagination."""
+  transactions(accountId: ID!, limit: Int, cursor: Cursor): TransactionConnection!
+
+  """Retrieve the current APY for the savings account."""
+  savingsRate: SavingsRate!
+
+  """Retrieve a savings goal by ID."""
+  savingsGoal(id: ID!): SavingsGoal
+
+  """List all savings goals for an account."""
+  savingsGoals(accountId: ID!): [SavingsGoal!]!
+
+  """Retrieve the cash advance status for an account."""
+  advance(accountId: ID!): Advance
+
+  """List all registered cards for the authenticated customer."""
+  cards: [Card!]!
+
+  """Retrieve a single card by ID."""
+  card(id: ID!): Card
+
+  """List direct deposits for an account."""
+  directDeposits(accountId: ID!, limit: Int): [DirectDeposit!]!
+
+  """List scheduled payments for the authenticated customer."""
+  scheduledPayments: [ScheduledPayment!]!
+
+  """List registered bill payees."""
+  billPayees: [BillPayee!]!
+
+  """Retrieve cashback earned in a given period."""
+  cashBacks(accountId: ID!, from: DateTime, to: DateTime): [CashBack!]!
+
+  """Retrieve the Excelerator status for the credit card."""
+  exceleratorStatus(accountId: ID!): ExceleratorStatus
+
+  """List notifications for the authenticated customer."""
+  notifications(limit: Int, unreadOnly: Boolean): [Notification!]!
+
+  """List registered webhooks."""
+  webhooks: [Webhook!]!
+}
+
+# ---------------------------------------------------------------------------
+# Root Mutation
+# ---------------------------------------------------------------------------
+
+type Mutation {
+  """Transfer funds between two Varo accounts."""
+  transfer(input: TransferInput!): Transfer!
+
+  """Send a P2P payment to another Varo user."""
+  sendP2P(input: P2PInput!): P2P!
+
+  """Initiate an ACH transfer."""
+  initiateACH(input: ACHInput!): ACH!
+
+  """Schedule or immediately pay a bill."""
+  payBill(input: BillPaymentInput!): BillPayment!
+
+  """Cancel a scheduled payment."""
+  cancelScheduledPayment(id: ID!): ScheduledPayment!
+
+  """Create or update a savings goal."""
+  upsertSavingsGoal(id: ID, input: SavingsGoalInput!): SavingsGoal!
+
+  """Delete a savings goal."""
+  deleteSavingsGoal(id: ID!): Boolean!
+
+  """Request a cash advance."""
+  requestAdvance(input: AdvanceRequestInput!): Advance!
+
+  """Lock or unlock a card."""
+  setCardLock(input: CardLockInput!): Card!
+
+  """Issue a new virtual card."""
+  createVirtualCard(input: VirtualCardInput!): VirtualCard!
+
+  """Cancel a virtual card."""
+  cancelVirtualCard(id: ID!): VirtualCard!
+
+  """Register a new webhook endpoint."""
+  registerWebhook(input: WebhookInput!): Webhook!
+
+  """Update an existing webhook."""
+  updateWebhook(id: ID!, input: WebhookInput!): Webhook!
+
+  """Delete a webhook."""
+  deleteWebhook(id: ID!): Boolean!
+
+  """Mark a notification as read."""
+  markNotificationRead(id: ID!): Notification!
+
+  """Mark all notifications as read."""
+  markAllNotificationsRead: Boolean!
+}
+
+# ---------------------------------------------------------------------------
+# Root Subscription
+# ---------------------------------------------------------------------------
+
+type Subscription {
+  """Stream real-time transaction events for an account."""
+  transactionCreated(accountId: ID!): Transaction!
+
+  """Stream balance update events for an account."""
+  balanceUpdated(accountId: ID!): AccountBalance!
+
+  """Stream direct deposit arrival events."""
+  directDepositReceived(accountId: ID!): DirectDeposit!
+
+  """Stream advance status change events."""
+  advanceStatusChanged(accountId: ID!): Advance!
+
+  """Stream notification events for the authenticated customer."""
+  notificationReceived: Notification!
+}
