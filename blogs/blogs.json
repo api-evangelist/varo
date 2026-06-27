@@ -1,27 +1,28 @@
 {
-  "blogFeeds": [
-    {
-      "name": "Varo Bank Blog",
-      "url": "https://www.varomoney.com/blog/",
-      "type": "Blog",
-      "lastChecked": "2026-06-13",
-      "posts": []
-    },
-    {
-      "name": "Varo Engineering Blog",
-      "url": "https://medium.com/engineering-varo",
-      "type": "EngineeringBlog",
-      "lastChecked": "2026-06-13",
-      "posts": []
-    }
-  ],
   "repo": "varo",
   "feeds": [
     {
+      "source": "https://www.varomoney.com/blog/",
+      "feed_url": "https://www.varomoney.com/blog/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://medium.com/feed/engineering-varo",
+      "feed_url": "https://medium.com/feed/engineering-varo",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://www.linkedin.com/company/varobank",
-      "error": "HTTPError"
+      "feed_url": "https://www.linkedin.com/company/varobank",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:03:07Z",
+  "post_count": 1
 }
