@@ -122,6 +122,10 @@ apis:
   - FN: Varo Bank Support
     url: https://support.varomoney.com/hc/en-us
 common:
+- type: VulnerabilityDisclosure
+  url: security/varo-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/varo-domain-security.yml
 - type: Website
   url: https://www.varomoney.com/
 - type: Documentation
