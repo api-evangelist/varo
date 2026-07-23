@@ -1,16 +1,28 @@
 aid: varo
+url: https://raw.githubusercontent.com/api-evangelist/varo/refs/heads/main/apis.yml
 name: Varo Bank
+kind: company
 description: Varo Bank is a mobile-first, FDIC-chartered digital bank offering fee-free
   checking and high-yield savings accounts, early direct deposit, instant cash advances,
-  a credit-builder card, and a personal line of credit. Its consumer-facing APIs power
-  high-yield savings, fee-free overdraft protection, instant transfers, and cash advance
-  features for personal financial services. Third-party integration is available via
-  Open Banking aggregators such as Plaid.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-url: https://raw.githubusercontent.com/api-evangelist/varo/refs/heads/main/apis.yml
-created: '2026-06-13'
-modified: '2026-06-13'
-specificationVersion: '0.19'
+  a credit-builder card, and a personal line of credit. Varo does not operate a public,
+  first-party developer API or developer portal; its consumer banking data is reachable
+  by third-party applications only through US open-finance aggregators such as Plaid
+  (a documented, native integration), and potentially MX, Finicity, or Akoya. The
+  surface catalogued here maps Varo's real consumer product family and the aggregator
+  seam through which that data is accessed.
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/varo.png
 tags:
 - Banking
 - Fintech
@@ -21,12 +33,20 @@ tags:
 - Open Banking
 - Mobile Banking
 - Digital Bank
+- United States
+created: '2026-06-13'
+modified: '2026-07-23'
+specificationVersion: '0.19'
 apis:
 - aid: varo:varo-bank-account
   name: Varo Bank Account API
-  description: Consumer-facing banking API providing fee-free checking account services,
-    early direct deposit, debit card management, ATM access, and cashback rewards.
-    Accessible to third-party applications via Open Banking aggregators such as Plaid.
+  description: Consumer-facing checking-account capability of Varo Bank, N.A., covering
+    fee-free checking, early direct deposit (up to two days early), debit card management,
+    access to 55,000+ Allpoint ATMs, cash deposits at retail locations, and cashback
+    rewards. Varo publishes no first-party API documentation for this product; account
+    balance and transaction data are reachable by third-party applications only via
+    US open-finance aggregators such as Plaid, MX, Finicity, or Akoya under customer-permissioned
+    data access.
   humanURL: https://www.varomoney.com/bank-account/
   baseURL: https://api.varomoney.com
   tags:
@@ -35,6 +55,7 @@ apis:
   - Debit Card
   - ATM
   - Open Banking
+  - United States
   properties:
   - type: Documentation
     url: https://support.varomoney.com/hc/en-us
@@ -49,9 +70,12 @@ apis:
     url: https://support.varomoney.com/hc/en-us
 - aid: varo:varo-savings-account
   name: Varo Savings Account API
-  description: High-yield savings account API delivering up to 5.00% APY on balances
-    up to $5,000, with automated savings tools and no fees. Accessible via Open Banking
-    aggregators for balance and transaction data.
+  description: High-yield savings capability delivering up to 5.00% APY on balances
+    up to $5,000 (2.50% APY above that threshold), with automated savings tools, round-ups,
+    named savings goals, and no monthly fees. As with all Varo products, no public
+    developer API or spec is published; balance and transaction data are accessed by
+    third-party financial apps only through customer-permissioned open-finance aggregators
+    such as Plaid, MX, Finicity, or Akoya.
   humanURL: https://www.varomoney.com/savings-account/
   baseURL: https://api.varomoney.com
   tags:
@@ -59,6 +83,7 @@ apis:
   - High-Yield
   - APY
   - Open Banking
+  - United States
   properties:
   - type: Documentation
     url: https://support.varomoney.com/hc/en-us
@@ -69,10 +94,12 @@ apis:
     url: https://support.varomoney.com/hc/en-us
 - aid: varo:varo-advance
   name: Varo Advance (Cash Advance) API
-  description: Cash advance API enabling eligible customers to access short-term funds
-    ($20–$500) with flat fees and no interest, repaid on the next direct deposit.
-    Exposes overdraft protection and instant liquidity features for consumer financial
-    services.
+  description: Short-term cash advance capability enabling eligible Varo customers to
+    access $20–$500 with a flat fee and no interest, repaid automatically on the next
+    qualifying direct deposit, providing overdraft protection and instant liquidity
+    for consumer financial services. Varo exposes no public API for this feature; it
+    is delivered exclusively inside the Varo mobile app, and any external visibility
+    into related account activity is via customer-permissioned open-finance aggregators.
   humanURL: https://www.varomoney.com/cash-advance/
   baseURL: https://api.varomoney.com
   tags:
@@ -80,6 +107,7 @@ apis:
   - Overdraft Protection
   - Short-Term Credit
   - Fintech
+  - United States
   properties:
   - type: Documentation
     url: https://support.varomoney.com/hc/en-us
@@ -88,15 +116,20 @@ apis:
     url: https://support.varomoney.com/hc/en-us
 - aid: varo:varo-line-of-credit
   name: Varo Personal Line of Credit API
-  description: Personal credit API offering up to $2,000 with a single flat fee, no
-    interest, and repayment terms up to 12 months. Designed to provide flexible, consumer-friendly
-    credit access with no late fees or prepayment penalties.
+  description: Personal-credit capability offering up to $2,000 with a single flat fee,
+    no interest, no late fees or prepayment penalties, and repayment terms up to 12
+    months, designed to provide flexible, consumer-friendly credit access. This product
+    has no public developer API or documented spec; it operates entirely within the
+    Varo mobile app, and no first-party programmatic interface is published for external
+    integration.
   humanURL: https://www.varomoney.com/line-of-credit/
   baseURL: https://api.varomoney.com
   tags:
   - Line of Credit
   - Consumer Lending
   - Fintech
+  - Credit
+  - United States
   properties:
   - type: Documentation
     url: https://support.varomoney.com/hc/en-us
@@ -105,9 +138,12 @@ apis:
     url: https://support.varomoney.com/hc/en-us
 - aid: varo:varo-believe
   name: Varo Believe Credit-Builder API
-  description: Secured Visa credit card API supporting credit-building features including
-    on-time payment tracking, credit bureau reporting, and credit score monitoring.
-    Average 40+ point credit score improvement for customers after 3 months.
+  description: Secured Visa credit-builder capability supporting on-time payment tracking,
+    reporting to all major credit bureaus, and credit score monitoring, with no annual
+    fee and no interest — customers see an average 40+ point credit score improvement
+    after three months. No public developer API or downloadable specification exists
+    for this product; it is available only through the Varo mobile app, with external
+    account data reachable solely via customer-permissioned open-finance aggregators.
   humanURL: https://www.varomoney.com/credit-builder/
   baseURL: https://api.varomoney.com
   tags:
@@ -115,7 +151,37 @@ apis:
   - Secured Card
   - Credit Score
   - Fintech
+  - United States
   properties:
+  - type: Documentation
+    url: https://support.varomoney.com/hc/en-us
+  contact:
+  - FN: Varo Bank Support
+    url: https://support.varomoney.com/hc/en-us
+- aid: varo:varo-aggregator-access
+  name: Varo Aggregator Data Access (Plaid)
+  description: The real, documented seam through which third-party applications reach
+    Varo Bank account data. Varo runs a native Plaid integration that lets customers
+    link their Varo accounts to external financial apps and permission the sharing of
+    balances, transactions, identity, and account/routing details. In the broader US
+    open-finance ecosystem Varo data is also reachable through other aggregators (MX,
+    Finicity, Akoya, Yodlee). This is aggregator-mediated access under the customer's
+    consent — not a Varo-published first-party API — and carries Plaid's authentication
+    (OAuth-style permissioned linking), not any Varo-issued API credentials.
+  humanURL: https://plaid.com/customer-stories/varo/
+  baseURL: https://production.plaid.com
+  tags:
+  - Open Banking
+  - Aggregator
+  - Plaid
+  - Data Access
+  - Account Aggregation
+  - United States
+  properties:
+  - type: PlaidIntegration
+    url: https://plaid.com/customer-stories/varo/
+  - type: OpenBankingTracker
+    url: https://www.openbankingtracker.com/provider/varomoney
   - type: Documentation
     url: https://support.varomoney.com/hc/en-us
   contact:
@@ -130,7 +196,9 @@ common:
   url: https://www.varomoney.com/
 - type: Documentation
   url: https://support.varomoney.com/hc/en-us
-- type: GitHubOrg
+- type: Support
+  url: https://support.varomoney.com/hc/en-us
+- type: GitHubOrganization
   url: https://github.com/varobank
 - type: LinkedIn
   url: https://www.linkedin.com/company/varobank
@@ -140,10 +208,16 @@ common:
   url: https://medium.com/engineering-varo
 - type: Pricing
   url: https://www.varomoney.com/bank-account/
+- type: TermsOfService
+  url: https://www.varomoney.com/privacy-legal/
+- type: PrivacyPolicy
+  url: https://www.varomoney.com/privacy-legal/
 - type: StatusPage
   url: https://statusgator.com/services/varo
 - type: X
   url: https://x.com/varobank
+- type: OpenBankingTracker
+  url: https://www.openbankingtracker.com/provider/varomoney
 - type: Plans
   url: https://raw.githubusercontent.com/api-evangelist/varo/refs/heads/main/plans/varo-plans-pricing.yml
 - type: RateLimits

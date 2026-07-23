@@ -17,12 +17,9 @@
     },
     {
       "source": "https://www.linkedin.com/company/varobank",
-      "feed_url": "https://www.linkedin.com/company/varobank",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "error": "HTTPError"
     }
   ],
-  "fetched": "2026-07-11T11:50:51Z",
+  "fetched": "2026-07-20T13:31:34Z",
   "post_count": 11
 }

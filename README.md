@@ -12,7 +12,9 @@ Varo Bank is a mobile-first, FDIC-chartered digital bank offering fee-free check
 
 ## API Architecture
 
-Varo does not offer a public developer API. Internally, Varo runs a federated GraphQL supergraph powering 9+ subgraphs and 88+ microservices, processing over 500 million monthly requests. Third-party integrations and consumer data access are available via Open Banking aggregators such as Plaid, which Varo uses natively to let customers link external accounts and export Varo data to external financial apps.
+Varo does **not** offer a public developer API or a developer portal. Probes of `developer.`, `developers.`, and `docs.varomoney.com` do not resolve, and `api.varomoney.com` (the private mobile-app backend) returns a Cloudflare origin error. The `varobank` GitHub org has a single archived, non-API public repo. Internally, Varo has described a federated GraphQL supergraph over ~88 microservices, but that contract is not published; the `graphql/` schema in this repo is a conceptual model only.
+
+The only real seam for third-party programmatic access to Varo account data is customer-permissioned open-finance aggregation — most notably a native, documented **Plaid** integration, with data also reachable through MX, Finicity, and Akoya in the broader US ecosystem. Varo publishes no FDX conformance or CFPB Section 1033 data-access developer documentation. See `review.yml` for the full honest assessment.
 
 ## Links
 

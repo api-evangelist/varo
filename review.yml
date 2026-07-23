@@ -1,0 +1,94 @@
+reviewer: API Evangelist
+date: '2026-07-23'
+provider: Varo Bank
+slug: varo
+domain: varomoney.com
+tier: digital
+summary: >-
+  Varo Bank operates NO public, first-party developer API and NO developer
+  portal. It is the first US consumer fintech to hold a national bank charter
+  (Varo Bank, N.A., 2020), but its banking capabilities are delivered entirely
+  inside the Varo mobile app. Third-party programmatic access to Varo account
+  data exists only through customer-permissioned US open-finance aggregators —
+  most notably a native, documented Plaid integration. This catalog honestly
+  represents Varo's real consumer product family plus the aggregator seam; it
+  does not fabricate any first-party API.
+developer_portal:
+  exists: false
+  probed:
+  - url: https://developer.varomoney.com
+    status: 000
+  - url: https://developers.varomoney.com
+    status: 000
+  - url: https://docs.varomoney.com
+    status: 000
+  - url: https://api.varomoney.com
+    status: 530
+    note: >-
+      Resolves to a Cloudflare origin error; this is the private Varo mobile-app
+      backend, not a public/documented API endpoint.
+  notes: >-
+    No developer, developers, or docs subdomain resolves. No "APIs" or
+    "Developers" section exists on varomoney.com. Open Banking Tracker and API
+    Tracker both list "no API products" for Varo.
+downloadable_specs:
+  openapi: false
+  swagger: false
+  postman: false
+  graphql: false
+  notes: >-
+    No OpenAPI, Swagger, Postman collection, or published GraphQL schema is
+    downloadable anywhere. The graphql/varo-graphql.md file in this repo is an
+    explicitly CONCEPTUAL model of Varo's internal data (Varo has publicly
+    described an internal federated GraphQL supergraph over ~88 microservices),
+    not a harvested or published contract. Zero real specs were harvested.
+auth_model:
+  first_party: none
+  notes: >-
+    Varo issues no public API keys, OAuth clients, or mTLS credentials to
+    developers. External data access is authenticated by the aggregator: Plaid's
+    customer-permissioned account-linking flow (OAuth-style consent), not any
+    Varo-issued credential.
+open_finance_posture:
+  first_party_api: false
+  aggregator_access: true
+  aggregators:
+  - name: Plaid
+    relationship: native, documented integration
+    evidence: https://plaid.com/customer-stories/varo/
+  - name: MX
+    relationship: reachable via US open-finance ecosystem (not Varo-documented)
+  - name: Finicity
+    relationship: reachable via US open-finance ecosystem (not Varo-documented)
+  - name: Akoya
+    relationship: reachable via US open-finance ecosystem (not Varo-documented)
+  fdx_participation: not publicly stated by Varo
+  cfpb_1033_posture: >-
+    No public statement of a CFPB Section 1033 personal-financial-data-rights
+    posture from Varo. As a chartered US bank, Varo falls under the 1033 rule's
+    scope; the industry-standard sharing mechanism is FDX, but Varo publishes no
+    FDX conformance or data-access developer documentation.
+github:
+  org: https://github.com/varobank
+  public_repos: 1
+  api_repos: 0
+  notes: >-
+    One public repo (kafka-neptune-sink, archived Java Kafka→Neptune connector).
+    No OpenAPI specs, SDKs, or API-reference repositories are public.
+verified_links:
+  website: {url: 'https://www.varomoney.com/', status: 200}
+  help_center: {url: 'https://support.varomoney.com/hc/en-us', status: 200}
+  blog: {url: 'https://www.varomoney.com/blog/', status: 200}
+  engineering_blog: {url: 'https://medium.com/engineering-varo', status: 403, note: bot-blocked but real}
+  github_org: {url: 'https://github.com/varobank', status: 200}
+  legal: {url: 'https://www.varomoney.com/privacy-legal/', status: 200, note: 'Terms + Privacy both route here; /terms/ and /privacy-policy/ are 404'}
+  status_page: {url: 'https://statusgator.com/services/varo', status: 200}
+  plaid_story: {url: 'https://plaid.com/customer-stories/varo/', status: 200}
+spec_provenance: >-
+  No specifications were harvested — none are publicly available. All apis[]
+  entries are documented consumer products (real humanURLs on varomoney.com) or
+  the aggregator-access seam (Plaid). No specs were invented.
+recommendation: >-
+  Represent Varo honestly as an aggregator-only surface. Do not pad with
+  fabricated first-party API specs. The single genuine external integration
+  point is Plaid; monitor for any future FDX/1033 data-access developer program.
