@@ -190,8 +190,16 @@ apis:
 common:
 - type: VulnerabilityDisclosure
   url: security/varo-vulnerability-disclosure.yml
+- type: Security
+  url: https://www.varomoney.com/.well-known/security.txt
 - type: DomainSecurity
   url: security/varo-domain-security.yml
+- type: WellKnown
+  url: well-known/varo-well-known.yml
+- type: SecurityTxt
+  url: well-known/varo-security.txt
+- type: LLMsTxt
+  url: llms/varo-llms.txt
 - type: Website
   url: https://www.varomoney.com/
 - type: Documentation

@@ -1,0 +1,34 @@
+# Varo Bank
+
+> Varo Bank, N.A. is a mobile-first, FDIC-chartered digital bank offering fee-free checking, high-yield savings, early direct deposit, instant cash advances (Varo Advance), a secured credit-builder card (Varo Believe), and a personal line of credit. Varo does NOT operate a public first-party developer API or developer portal; consumer banking data is reachable by third-party applications only through US open-finance aggregators such as Plaid (a documented, native integration), and potentially MX, Finicity, Akoya, or Yodlee under customer-permissioned data access.
+
+## Products
+
+- [Varo Bank Account (checking)](https://www.varomoney.com/bank-account/): Fee-free checking, early direct deposit, debit card, 55,000+ Allpoint ATMs, cashback rewards.
+- [Varo Savings Account](https://www.varomoney.com/savings-account/): High-yield savings up to 5.00% APY on balances up to $5,000, automated savings tools and goals.
+- [Varo Advance (cash advance)](https://www.varomoney.com/cash-advance/): $20–$500 short-term advances, flat fee, no interest, auto-repaid on next direct deposit.
+- [Varo Personal Line of Credit](https://www.varomoney.com/line-of-credit/): Up to $2,000, single flat fee, no interest, terms up to 12 months.
+- [Varo Believe (credit builder)](https://www.varomoney.com/credit-builder/): Secured Visa credit-builder card reporting to all major bureaus, no annual fee, no interest.
+
+## Data Access
+
+- [Plaid integration (Varo customer story)](https://plaid.com/customer-stories/varo/): The real, documented seam through which third-party apps reach Varo account data (balances, transactions, identity, account/routing) under customer consent via Plaid's OAuth-style permissioned linking.
+- [Open Banking Tracker profile](https://www.openbankingtracker.com/provider/varomoney): Third-party catalog of Varo's open-finance connectivity.
+
+## Docs & Support
+
+- [Help Center / Support](https://support.varomoney.com/hc/en-us): Consumer support knowledge base (no developer documentation).
+- [Varo Blog](https://www.varomoney.com/blog/): Company and product news.
+- [Varo Engineering (Medium)](https://medium.com/engineering-varo): Engineering blog covering GraphQL, platform, ML, and secure SDLC practices.
+- [Privacy & Legal](https://www.varomoney.com/privacy-legal/): Terms and privacy policy.
+
+## Security
+
+- [security.txt](https://www.varomoney.com/.well-known/security.txt): RFC 9116 contact.
+- Vulnerability disclosure: Varo runs a Bugcrowd-managed VDP (varo-bank-vdp-ess@submit.bugcrowd.com); security contact security@varomoney.com.
+
+## Notes
+
+- No first-party OpenAPI, GraphQL, or MCP endpoint is published. The GraphQL schema in this repo (graphql/varo-schema.graphql) is a CONCEPTUAL model of Varo's product data, not a live introspected API.
+- api.varomoney.com is not a public developer host (returns HTTP 530).
+- Status monitoring is via third-party StatusGator (https://statusgator.com/services/varo), not a Varo-operated status page.

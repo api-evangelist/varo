@@ -1,0 +1,31 @@
+generated: '2026-07-23'
+method: searched
+source: live probes of /.well-known/* on Varo hosts
+hosts:
+- host: https://www.varomoney.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: varo-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://api.varomoney.com
+  note: >-
+    api.varomoney.com is not a public API host; all probes return HTTP 530
+    (origin unreachable). Varo publishes no first-party OpenAPI, OAuth
+    authorization server, or OIDC discovery document.
+  documents:
+  - path: /openapi.json
+    status: 530
+  - path: /swagger.json
+    status: 530
+  - path: /graphql
+    status: 530
+  - path: /.well-known/oauth-authorization-server
+    status: 530
+  - path: /.well-known/openid-configuration
+    status: 530
