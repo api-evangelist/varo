@@ -6,7 +6,8 @@
       "feed_url": "https://www.varomoney.com/blog/",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://medium.com/feed/engineering-varo",
@@ -20,9 +21,10 @@
       "feed_url": "https://www.linkedin.com/company/varobank",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     }
   ],
-  "fetched": "2026-08-06T14:08:46Z",
+  "fetched": "2026-08-15T12:11:08Z",
   "post_count": 11
 }
