@@ -50,6 +50,13 @@ apis:
     tags:
       - Checking Account
       - Direct Deposit
+      - Debit Cards
+      - ATM
+      - Open Banking
+      - United States
+    tags_raw:
+      - Checking Account
+      - Direct Deposit
       - Debit Card
       - ATM
       - Open Banking
