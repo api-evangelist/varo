@@ -68,8 +68,6 @@ apis:
         url: https://www.openbankingtracker.com/provider/varomoney
       - type: PlaidIntegration
         url: https://plaid.com/customer-stories/varo/
-      - url: graphql/varo-graphql.md
-        type: GraphQL
     contact:
       - FN: Varo Bank Support
         url: https://support.varomoney.com/hc/en-us
