@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: Varo Bank Rate Limits
 description: Rate limits and operational thresholds for Varo Bank consumer banking services. Varo does not publish a public developer API; operational limits apply to consumer-facing banking features and third-party integrations via Open Banking aggregators such as Plaid.
 url: https://support.varomoney.com/hc/en-us
