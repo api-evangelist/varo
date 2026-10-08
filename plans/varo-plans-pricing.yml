@@ -85,3 +85,40 @@ plans:
       - Credit score tracking
       - Average 40+ point credit score increase after 3 months of on-time payments
       - Reports to major credit bureaus
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Varo Bank Account
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Varo Savings Account
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Varo Advance (Cash Advance)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Varo Personal Line of Credit
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Varo Believe Credit-Builder Card
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
