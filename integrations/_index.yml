@@ -29,3 +29,34 @@
     detected: '2026-10-14'
   status: not-a-workflow
   arazzo: null
+- slug: varo-fdic-bankfind-insured-institutions
+  label: FDIC BankFind insured institutions
+  partner_name: FDIC BankFind insured institutions
+  category: US FDIC-insured depository institution charter
+  type: register
+  channel: regulator-register
+  evidence: https://api.fdic.gov/banks/institutions?filters=ACTIVE:1&fields=NAME,WEBADDR,CERT,ASSET,STALP
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: FDIC BankFind insured institutions
+    spec_file: null
+    standard: null
+    role: insured-depository-institution
+    registrations:
+    - registered_name: Varo Bank, National Association
+      register_status: active
+      register_country: US
+      register_id: '59190'
+      matched_domain: varomoney.com
+      matched_by: domain
+      licences:
+      - FDIC-insured institution (CERT 59190)
+      evidence_url: https://banks.data.fdic.gov/bankfind-suite/bankfind/details/59190
+      state: UT
+    signal_note: 'participation only: a federal deposit-insurance charter on a regulator register; no API conformance
+      is published by this register'
+    detected_by: sweep-us-bank-credit-union-registers.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
