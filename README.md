@@ -64,35 +64,118 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Varo Bank is a mobile-first, FDIC-chartered digital bank offering fee-free checking and high-yield savings accounts, early direct deposit, instant cash advances, a credit-builder Visa card, and a personal line of credit. Founded as Varo Money and operating as Varo Bank, N.A., it became the first consumer fintech company to receive a national bank charter in the United States (2020).
+Varo Bank is a mobile-first, FDIC-chartered digital bank offering fee-free checking and high-yield savings accounts, early direct deposit, instant cash advances, a credit-builder card, and a personal line of credit. Varo does not operate a public, first-party developer API or developer portal; its consumer banking data is reachable by third-party applications only through US open-finance aggregators such as Plaid (a documented, native integration), and potentially MX, Finicity, or Akoya. The surface catalogued here maps Varo's real consumer product family and the aggregator seam through which that data is accessed.
 
-## Products
+**Areas:** Banking · Fintech · Consumer Finance · Savings · Cash Advance · Credit Builder · Open Banking · Mobile Banking · Digital Bank · United States · Consumer Banking
 
-- **Varo Bank Account** — Fee-free checking with early direct deposit (up to 2 days), 55,000+ free Allpoint ATMs, cashback rewards, and cash deposits at 7,500+ CVS locations.
-- **Varo Savings Account** — High-yield savings at up to 5.00% APY on the first $5,000; 2.50% APY above that threshold.
-- **Varo Advance** — Short-term cash advances from $20–$500 with a flat fee (no interest), repaid on next direct deposit.
-- **Varo Personal Line of Credit** — Up to $2,000 with a single flat fee, no interest, no late fees, repayment terms up to 12 months.
-- **Varo Believe** — Secured Visa credit-builder card with no annual fee or interest; reports to all major credit bureaus.
+## Varo Bank on APIs.io
 
-## API Architecture
+Everything profiled for Varo Bank is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/varo/](https://apis.io/providers/varo/)** — or go straight to one of the APIs or properties below.
 
-Varo does **not** offer a public developer API or a developer portal. Probes of `developer.`, `developers.`, and `docs.varomoney.com` do not resolve, and `api.varomoney.com` (the private mobile-app backend) returns a Cloudflare origin error. The `varobank` GitHub org has a single archived, non-API public repo. Internally, Varo has described a federated GraphQL supergraph over ~88 microservices, but that contract is not published; the `graphql/` schema in this repo is a conceptual model only.
+### APIs (2)
 
-The only real seam for third-party programmatic access to Varo account data is customer-permissioned open-finance aggregation — most notably a native, documented **Plaid** integration, with data also reachable through MX, Finicity, and Akoya in the broader US ecosystem. Varo publishes no FDX conformance or CFPB Section 1033 data-access developer documentation. See `review.yml` for the full honest assessment.
+- [Varo Bank Account API](https://apis.io/apis/varo/varo-bank-account/) — Consumer-facing checking-account capability of Varo Bank, N.A., covering fee-free checking, early direct deposit (up to two days early), debit card…
+- [Varo Aggregator Data Access (Plaid)](https://apis.io/apis/varo/varo-aggregator-access/) — The real, documented seam through which third-party applications reach Varo Bank account data. Varo runs a native Plaid integration that lets customers link…
 
-## Links
+### Published properties
 
-- Website: https://www.varomoney.com/
-- Help Center: https://support.varomoney.com/hc/en-us
-- Blog: https://www.varomoney.com/blog/
-- Engineering Blog: https://medium.com/engineering-varo
-- LinkedIn: https://www.linkedin.com/company/varobank
-- X (Twitter): https://x.com/varobank
-- Open Banking Tracker: https://www.openbankingtracker.com/provider/varomoney
-- Plaid Customer Story: https://plaid.com/customer-stories/varo/
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs.json
+#### GraphQL (1)
 
-This repository contains an [APIs.json](apis.yml) profile (specification version 0.19) cataloging Varo Bank's consumer-facing API surface, pricing, rate limits, and FinOps reference.
+GraphQL schemas.
 
-Maintained by [Kin Lane](mailto:kin@apievangelist.com) / [API Evangelist](https://apievangelist.com).
+- [Moved to /providers/varo/](https://apis.io/graphqls/varo/varo-graphql/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Varo Domain Security](https://apis.io/security/varo/varo-domain-security/)
+- [Varo Vulnerability Disclosure](https://apis.io/security/varo/varo-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Varo Plans Pricing](https://apis.io/plans/varo/varo-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Varo Rate Limits](https://apis.io/rate-limits/varo/varo-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Varo Finops](https://apis.io/finops/varo/varo-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.varomoney.com/)
+- [Documentation](https://support.varomoney.com/hc/en-us)
+- [Pricing](https://www.varomoney.com/bank-account/)
+- [Support](https://support.varomoney.com/hc/en-us)
+- [Blog](https://www.varomoney.com/blog/)
+- [Security](https://www.varomoney.com/.well-known/security.txt)
+- [Terms of service](https://www.varomoney.com/privacy-legal/)
+- [Privacy policy](https://www.varomoney.com/privacy-legal/)
+- [GitHub](https://github.com/varobank)
+- [Status](https://statusgator.com/services/varo)
+
+## API Evangelist rating
+
+**Kin Score 22.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 0.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 16.7 |
+| Access clarity | 39.5 |
+
+**Agent readiness 2.5** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.7** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/varo/](https://apis.io/providers/varo/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Varo Bank: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/varo/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
